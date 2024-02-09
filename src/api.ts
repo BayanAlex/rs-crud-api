@@ -1,82 +1,115 @@
-import { v4 as uuidV4, validate as uuidValidate } from 'uuid';
 import { ResResult } from './models/endpoints.ts';
-import { User } from './models/user.ts';
+import { validate as uuidValidate } from 'uuid';
 
-const db: User[] = [];
-
-export function getUsers(): ResResult {
-    return { status: 200, result: db };
+export function getUsers(): Promise<ResResult> {
+    return new Promise(resolve => {
+        process.once('message', (message: any) => {
+            resolve({ status: 200, result: message });
+        });
+        process.send({ command: 'getUsers' }, undefined, {}, (error) => {
+            if (error) {
+                resolve({ status: 500, result: error.message });
+            }
+        });
+    });
 }
 
-export function getUser(id: string): ResResult {
+export function getUser(id: string): Promise<ResResult> {
     if (!uuidValidate(id)) {
-        return { status: 400, result: `${id} is not a valid user id` };
+        return Promise.resolve({ status: 400, result: `${id} is not a valid user id` });
     }
 
-    const user = db.find((user) => user.id === id);
-    if (!user) {
-        return { status: 404, result: `User with id=${id} does not exist` };
-    }
+    return new Promise(resolve => {
+        process.once('message', (message: any) => {
+            if (!message) {
+                resolve({ status: 404, result: `User with id=${id} does not exist` });
+                return;
+            }
+            resolve({ status: 200, result: message });
+        });
 
-    return { status: 200, result: user };
+        process.send({ command: 'getUser', id }, undefined, {}, (error) => {
+            if (error) {
+                resolve({ status: 500, result: error.message });
+            }
+        });
+    });
 }
 
-export function createUser(data: any): ResResult {
+export function createUser(data: any): Promise<ResResult> {
     if (!userDataValid(data)) {
-        return {
+        return Promise.resolve({
             status: 400,
             result: 'User data does not contain all required fields: username (string), age (number), array (strings) of hobbies'
-        };
+        });
     }
 
-    const id = uuidV4();
-    const user: User = {
-        id,
-        username: data.username,
-        age: data.age,
-        hobbies: data.hobbies
-    };
-    db.push(user);
+    return new Promise(resolve => {
+        process.once('message', (message: any) => {
+            if (message) {
+                resolve({ status: 201, result: message });
+            } else {
+                resolve({ status: 500, result: 'Internal server error' });
+            }
+        });
 
-    return { status: 201, result: user };
+        process.send({ command: 'createUser', data }, undefined, {}, (error) => {
+            if (error) {
+                resolve({ status: 500, result: error.message });
+            }
+        });
+    });
 }
 
-export function updateUser(id: string, data: any): ResResult {
+export function updateUser(id: string, data: any): Promise<ResResult> {
     if (!uuidValidate(id)) {
-        return { status: 400, result: `${id} is not a valid user id` };
+        return Promise.resolve({ status: 400, result: `${id} is not a valid user id` });
     }
 
-    const user = db.find((user) => user.id === id);
-    if (!user) {
-        return { status: 404, result: `User with id=${id} does not exist` };
-    }
-    
     if (!userDataValid(data)) {
-        return {
+        return Promise.resolve({
             status: 400,
             result: 'User data does not contain all required fields: username (string), age (number), array (strings) of hobbies'
-        };
+        });
     }
 
-    user.username = data.username;
-    user.age = data.age;
-    user.hobbies = data.hobbies;
+    return new Promise(resolve => {
+        process.once('message', (message: any) => {
+            if (!message) {
+                resolve({ status: 404, result: `User with id=${id} does not exist` });
+                return;
+            }
+            resolve({ status: 200, result: message });
+        });
 
-    return { status: 200, result: user };
+        process.send({ command: 'updateUser', id, data }, undefined, {}, (error) => {
+            if (error) {
+                resolve({ status: 500, result: error.message });
+            }
+        });
+    });
 }
 
-export function deleteUser(id: string): ResResult {
+export function deleteUser(id: string): Promise<ResResult> {
     if (!uuidValidate(id)) {
-        return { status: 400, result: `${id} is not a valid user id` };
+        return Promise.resolve({ status: 400, result: `${id} is not a valid user id` });
     }
 
-    const index = db.findIndex((user) => user.id === id);
-    if (index === -1) {
-        return { status: 404, result: `User with id=${id} does not exist` };
-    }
-    db.splice(index, 1);
+    return new Promise(resolve => {
+        process.once('message', (message: any) => {
+            if (!message?.success) {
+                resolve({ status: 404, result: `User with id=${id} does not exist` });
+                return;
+            }
+            resolve({ status: 204 });
+        });
 
-    return { status: 204 };
+        process.send({ command: 'deleteUser', id }, undefined, {}, (error) => {
+            if (error) {
+                resolve({ status: 500, result: error.message });
+            }
+        });
+    });
 }
 
 function userDataValid(data: any) {

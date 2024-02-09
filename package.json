@@ -9,8 +9,8 @@
   "type": "module",
   "scripts": {
     "start:dev": "nodemon ./src/index.ts",
+    "start:multi": "nodemon ./src/index.ts --multi",
     "start:prod": "webpack && node ./dist/index.js",
-    "start:multi": "",
     "build:prod": "webpack",
     "prettier-format": "prettier --config .prettierrc src/**/*.ts --write",
     "test": "jest --silent"
