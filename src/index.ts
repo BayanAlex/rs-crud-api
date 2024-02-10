@@ -17,7 +17,7 @@ const db: User[] = [];
 const port = +(cluster.isPrimary ? process.env.PORT || 4000 : process.env.workerPort);
 const workersList: WorkerListItem[] = [];
 const host = '127.0.0.1';
-const workersCount = availableParallelism() - 1;
+const workersCount = availableParallelism() > 2 ? availableParallelism() - 1 : 1;
 const multi = process.argv.includes('--multi');
 
 let nextWorkerPortIndex = 1;
@@ -26,7 +26,7 @@ if (cluster.isPrimary) {
     console.log(`Primary with PID ${process.pid} started`);
 
     if (multi) {
-        for (let i = 1; i < workersCount; i++) {
+        for (let i = 1; i <= workersCount; i++) {
             const worker = cluster.fork({ workerPort: port + i });
             worker.on('message', (message) => processMessage(message, worker));
             workersList.push({ id: worker.id, port: port + i });
