@@ -1,26 +1,23 @@
-export default {
-    entry: './src/index.ts',
-    output: {
-        filename: 'index.js',
+const path = require('path');
+
+module.exports = {
+    mode: 'production',
+    target: 'node',
+    entry: path.resolve(__dirname, 'src', 'index.ts'),
+    output: { 
+        filename: 'index.js' 
     },
-    module: {
-        rules: [
-            {
+    module: { 
+        rules: 
+        [
+            { 
                 test: /\.ts$/i,
-                exclude: ['/node_modules/'],
-                use: [
-                    {
-                        loader: 'ts-loader',
-                        options: {
-                            // transpileOnly: true
-                        }
-                    }
-                ]
-            },
-        ],
+                use: 'ts-loader',
+                exclude: ['/node_modules/']
+            }
+        ] 
     },
-    resolve: {
-        extensions: ['.ts'],
+    resolve: { 
+        extensions: ['.ts'] 
     },
-    mode: 'production'
 }

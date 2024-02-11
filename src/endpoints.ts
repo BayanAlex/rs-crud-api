@@ -1,5 +1,5 @@
-import { Endpoints } from "./models/endpoints.ts";
-import { getUsers, getUser, createUser, updateUser, deleteUser } from './api.ts';
+import { Endpoints } from "./models/endpoints";
+import { getUsers, getUser, createUser, updateUser, deleteUser } from './api';
 
 export const endpoints: Endpoints = {
     GET: {

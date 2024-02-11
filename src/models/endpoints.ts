@@ -1,4 +1,4 @@
-import { User } from "./user.ts";
+import { User } from './user';
 
 export interface Endpoints {
     GET: {

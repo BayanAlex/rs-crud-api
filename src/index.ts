@@ -1,7 +1,7 @@
-import { User } from './models/user.ts';
-import { ResResult } from './models/endpoints.ts';
-import { endpoints } from './endpoints.ts';
-import 'dotenv/config';
+require('dotenv').config(); // import 'dotenv/config' throws errors during build
+import { User } from './models/user';
+import { ResResult } from './models/endpoints';
+import { endpoints } from './endpoints';
 import http from 'http';
 import cluster from 'cluster';
 import { Worker as ClusterWorker } from 'cluster';

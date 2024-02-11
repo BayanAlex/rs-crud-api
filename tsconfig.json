@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    // "emitDeclarationOnly": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "declaration": true,
-    "noImplicitAny": true,
-    "module": "NodeNext",
     "target": "ESNext",
-    "moduleResolution": "NodeNext",
-    "outDir": "./dist"
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "./dist",
+    "lib": ["ESNext"],
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true
   },
   "include": [
     "./src/**/*"

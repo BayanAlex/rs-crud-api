@@ -1,4 +1,4 @@
-import { ResResult } from './models/endpoints.ts';
+import { ResResult } from './models/endpoints';
 import { validate as uuidValidate } from 'uuid';
 
 export function getUsers(): Promise<ResResult> {
