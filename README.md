@@ -19,28 +19,28 @@ Server can be run in a single-thread or multi-thread mode.
 |           |               | 404         | User record with the given ID doesn't exist |                              | JSON: Error message         |
 
 #### User record (JSON)
-{
-&emsp;id: `uuid v4 string`,
-&emsp;username: `string`,
-&emsp;age: `number` > 0,
-&emsp;hobbies: `string[]` or `[]`
+{<br/>
+&emsp;id: `uuid v4 string`,<br/>
+&emsp;username: `string`,<br/>
+&emsp;age: `number` > 0,<br/>
+&emsp;hobbies: `string[]` or `[]`<br/>
 }
 #### Error message (JSON)
-{
-&emsp;message: `string`
+{<br/>
+&emsp;message: `string`<br/>
 }
 
 ### Application modes 
-##### Single-thread
+#### Single-thread
 Application creates 1 thread on the given port
-##### Multi-thread
+#### Multi-thread
 Application creates multiple workers on own ports. Workers count is being defined by system available parallelism. Primary thread distributs requests amoung the workers using round-robin algorythm. Worker ports are appointed by increasing by 1 starting from next of primary port
 
 ## Application scripts
-##### Develop mode
+#### Develop mode
 - `start:dev` to run in single-thread mode
 - `start:multi` to run in multi-thread mode
-##### Production mode
+#### Production mode
 - `start:prod` to build a bundle and run it in single-thread mode
 - `start:prod-multi` to build a bundle and run it in multi-thread mode
 - `build:prod` to build a bundle.
@@ -48,7 +48,7 @@ Application creates multiple workers on own ports. Workers count is being define
 Running a compiled bundle from its folder
 * `node index.js` single-thread mode
 * `node index.js --multi` multi-thread mode
-##### Test mode
+#### Test mode
 - `test` to run some API tests that perform API requests to the running server. Server must be run in advance in any mode
 
 ### FrontEnd for testing
