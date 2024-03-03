@@ -1,0 +1,47 @@
+{
+  "name": "crud-api",
+  "version": "1.0.0",
+  "description": "RS School. CRUD API task",
+  "main": "./dist/index.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "type": "commonjs",
+  "scripts": {
+    "start:dev": "nodemon ./src/index.ts",
+    "start:multi": "nodemon ./src/index.ts --multi",
+    "start:prod": "webpack && node ./dist/index.js",
+    "start:prod-multi": "webpack && node ./dist/index.js --multi",
+    "build:prod": "webpack",
+    "prettier-format": "prettier --config .prettierrc src/**/*.ts --write",
+    "test": "jest --silent"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BayanAlex/rs-crud-api.git"
+  },
+  "author": "Oleksandr Shyhyda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BayanAlex/rs-crud-api/issues"
+  },
+  "homepage": "https://github.com/BayanAlex/rs-crud-api#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.16",
+    "@types/uuid": "^9.0.8",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "prettier": "3.2.5",
+    "ts-jest": "^29.1.2",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.1",
+    "uuid": "^9.0.1"
+  }
+}
